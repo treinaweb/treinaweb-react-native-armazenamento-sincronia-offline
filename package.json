@@ -10,6 +10,7 @@
     "@react-native-community/netinfo": "^2.0.9",
     "react": "16.8.3",
     "react-native": "0.59.4",
+    "react-native-background-fetch": "^2.5.4",
     "rnsync": "^4.1.1"
   },
   "devDependencies": {

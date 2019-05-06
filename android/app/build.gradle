@@ -138,6 +138,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-background-fetch')
     implementation project(':rnsync')
     implementation project(':@react-native-community_netinfo')
     implementation fileTree(dir: "libs", include: ["*.jar"])

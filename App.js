@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, SafeAreaView, ActivityIndicator, ScrollView, View, RefreshControl, Modal, Button} from 'react-native';
+import BackgroundFetch from "react-native-background-fetch";
 
 import {ListsService} from './app/services/ListsService';
 import ListsView from './app/views/ListsView';
@@ -16,6 +17,18 @@ export default class App extends Component {
   async componentDidMount(){
     await ListsService.push();
     await this.getLists();
+  }
+
+  backgroundUpdate(){
+    BackgroundFetch.configure({
+      minimumFetchInterval: 15
+    }, async () => {
+      await ListsService.push();
+      await this.getLists();
+      BackgroundFetch.finish(BackgroundFetch.FETCH_RESULT_NEW_DATA);
+    }, (error) => {
+      console.log('error');
+    })
   }
 
   getLists = async () => {
