@@ -14,6 +14,7 @@ export default class App extends Component {
   }
 
   async componentDidMount(){
+    await ListsService.push();
     await this.getLists();
   }
 
