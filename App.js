@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+
+import fs, { moveFile, copyFile, unlink } from 'react-native-fs';
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -12,10 +14,14 @@ const instructions = Platform.select({
 export default class App extends Component{
 
   async componentDidMount(){ 
-    await AsyncStorage.setItem('meuTexto', '123456 abc');
-    const value = await AsyncStorage.getItem('meuTexto');
-    AsyncStorage.removeItem('meuTexto')
-    AsyncStorage.clear()
+    const path = fs.DocumentDirectoryPath + '/text.txt';
+    await fs.writeFile(path, 'Texto dentro do arquivo', 'utf8');
+    const content = await fs.readFile(path, 'utf8');
+    console.log('arquivo:', content);
+
+    //fs.copyFile(path, fs.DocumentDirectoryPath + '/text2.txt')
+    //fs.moveFile(path, fs.DocumentDirectoryPath + '/text3.txt')
+    //fs.unlink(fs.DocumentDirectoryPath + '/text2.txt')
   }
 
   

@@ -3,7 +3,7 @@ package com.myapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
+import com.rnfs.RNFSPackage;
 import cl.json.RNSharePackage;
 import cl.json.ShareApplication;
 import com.facebook.react.ReactNativeHost;
@@ -26,7 +26,7 @@ public class MainApplication extends Application implements ShareApplication,Rea
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new AsyncStoragePackage(),
+            new RNFSPackage(),
             new RNSharePackage()
       );
     }
