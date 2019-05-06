@@ -1,28 +1,28 @@
-const url = 'http://192.168.0.28:3002/api/react-native/';
+import {RNSync} from 'rnsync';
 
-export const ApiService = {
-    get(endpoint){
-        return fetch(`${url}${endpoint}`)
-            .then(response => response.json());
-    },
-    post(endpoint, data){
-        return fetch(`${url}${endpoint}`,{
-            method: 'POST',
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json());
-    },
-    put(endpoint, data){
-        return fetch(`${url}${endpoint}?id=${data.id}`,{
-            method: 'PUT',
-            body: JSON.stringify(data)
-        })
-            .then(response => response.json());
-    },
-    delete(endpoint, id){
-        return fetch(`${url}${endpoint}?id=${id}`,{
-            method: 'DELETE'
-        })
-            .then(response => response.json());
+const url = 'http://192.168.0.27:5984';
+
+export class DataStore{
+    constructor(dbName){
+        this.dbUrl = url;
+        this.dbName = dbName;
+        this.store = new RNSync(this.dbUrl, this.dbName);
+        this.store.init();
+    }
+    async list(){
+        const docs = await this.store.find({});
+        return docs;
+    }
+    async create(item){
+        const doc = await this.store.create(item);
+        return doc;
+    }
+    async update(doc){
+        const newDoc = await this.store.update(doc.id, doc.rev, doc.body);
+        return newDoc;
+    }
+    async remove(id){
+        await this.store.delete(id);
+        return id;
     }
 }

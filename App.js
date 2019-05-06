@@ -30,30 +30,26 @@ export default class App extends Component {
     })
   }
   createList = async () => {
-    const newList = await ListsService.create({title: 'Nova Lista', description: '', picture: '', items: []});
-    this.setState(({lists}) => {
-      const newLists = [...lists, newList];
-      return {lists: newLists}
-    }, () => {
+    const newList = await ListsService.create({title: 'Nova Lista', description: '', picture: '', items: []}),
+      lists = await ListsService.list();
+
+    this.setState({lists}, () => {
       this.selectList(newList);
     })
   }
-  updateList = (newList) => {
-    const lists = [...this.state.lists],
-      listIndex = lists.findIndex(list => list.id === newList.id);
-    
-    lists[listIndex] = newList;
+  updateList = async (newList) => {
+    await ListsService.update(newList);
+    const lists = await ListsService.list();
     this.setState({
       lists,
       selectedList: {},
       modalVisible: false
     })
-    ListsService.update(lists[listIndex]);
   }
-  removeList = (listToRemove) => {
-    const lists = this.state.lists.filter(list => list.id !== listToRemove.id);
+  removeList = async (listToRemove) => {
+    await ListsService.remove(listToRemove.id);
+    const lists = await ListsService.list();
     this.setState({lists});
-    ListsService.remove(listToRemove.id);
   }
 
   render() {
